@@ -98,13 +98,13 @@ local function is_vim(pane)
   return pane:get_user_vars().IS_NVIM == 'true'
 end
 
-local function is_vim(pane)
-  -- This gsub is equivalent to POSIX basename(3)
-  -- Given "/foo/bar" returns "bar"
-  -- Given "c:\\foo\\bar" returns "bar"
-  local process_name = string.gsub(pane:get_foreground_process_name(), '(.*[/\\])(.*)', '%2')
-  return process_name == 'nvim' or process_name == 'vim'
-end
+-- local function is_vim(pane)
+--   -- This gsub is equivalent to POSIX basename(3)
+--   -- Given "/foo/bar" returns "bar"
+--   -- Given "c:\\foo\\bar" returns "bar"
+--   local process_name = string.gsub(pane:get_foreground_process_name(), '(.*[/\\])(.*)', '%2')
+--   return process_name == 'nvim' or process_name == 'vim'
+-- end
 
 local direction_keys = {
   h = 'Left',
@@ -143,4 +143,3 @@ for _, key in ipairs({ 'h', 'j', 'k', 'l' }) do
   table.insert(config.keys, split_nav('resize', key))
 end
 return config
-
