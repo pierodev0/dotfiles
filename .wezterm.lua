@@ -32,7 +32,7 @@ config.hide_tab_bar_if_only_one_tab = true
 -- =====================
 -- TMUX-LIKE LEADER
 -- =====================
-config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 
 -- =====================
 -- KEYBINDINGS
@@ -93,18 +93,20 @@ config.keys = {
 }
 
 -- if you are *NOT* lazy-loading smart-splits.nvim (recommended)
-local function is_vim(pane)
+-- local function is_vim(pane)
   -- this is set by the plugin, and unset on ExitPre in Neovim
   return pane:get_user_vars().IS_NVIM == 'true'
+-- end
+
+local function is_vim_or_tmux(pane)
+	local process_name = string.gsub(pane:get_foreground_process_name() or "", "(.*[/\\])(.*)", "%2")
+	-- Limpiar extensiones .exe si estás en Windows y pasar a minúsculas
+	process_name = string.gsub(string.lower(process_name), "%.exe$", "")
+
+	-- Aquí es donde añadimos 'tmux' a la lista blanca
+	return process_name == "nvim" or process_name == "vim" or process_name == "tmux" or process_name == "wslhost"
 end
 
--- local function is_vim(pane)
---   -- This gsub is equivalent to POSIX basename(3)
---   -- Given "/foo/bar" returns "bar"
---   -- Given "c:\\foo\\bar" returns "bar"
---   local process_name = string.gsub(pane:get_foreground_process_name(), '(.*[/\\])(.*)', '%2')
---   return process_name == 'nvim' or process_name == 'vim'
--- end
 
 local direction_keys = {
   h = 'Left',
